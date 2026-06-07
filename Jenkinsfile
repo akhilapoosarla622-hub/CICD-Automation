@@ -1,78 +1,43 @@
-
 pipeline {
+    agent any
+    stages {
 
-   agent any
+        stage('Clone Code') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/akhilapoosarla622-hub/CICD-Automation.git'
+            }
+        }
 
+        stage('Build') {
+            steps {
+                echo 'Building HTML project...'
+            }
+        }
 
-   stages {
+        stage('Test') {
+            steps {
+                echo 'Testing website files...'
 
+                sh '''
+                if [ -f index.html ]; then
+                    echo "index.html exists"
+                else
+                    echo "index.html missing"
+                    exit 1
+                fi
+                '''
+            }
+        }
 
-       stage('Clone Code') {
+        stage('Deploy') {
+            steps {
+                echo 'Deploying website...'
 
-           steps {
-
-               git 'https://github.com/akhilapoosarla622-hub/CICD-Automation.git'
-
-           }
-
-       }
-
-
-       stage('Build') {
-
-           steps {
-
-               echo 'Building HTML project...'
-
-           }
-
-       }
-
-
-       stage('Test') {
-
-           steps {
-
-               echo 'Testing website files...'
-
-
-               sh '''
-
-               if [ -f index.html ]; then
-
-                   echo "index.html exists"
-
-               else
-
-                   echo "index.html missing"
-
-                   exit 1
-
-               fi
-
-               '''
-
-           }
-                }
-
-
-       stage('Deploy') {
-
-           steps {
-
-               echo 'Deploying website...'
-
-
-               sh '''
-
-               sudo cp -r * /var/www/html/
-
-               '''
-
-           }
-
-       }
-
-   }
-
+                sh '''
+                sudo cp -r * /var/www/html/
+                '''
+            }
+        }
+    }
 }
