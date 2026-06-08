@@ -40,4 +40,13 @@ pipeline {
             }
         }
     }
+    post {
+
+   success {
+
+       mail to: 'akhilapoosarla622@gmail.com',
+       subject: 'Build Success',
+       body: 'Pipeline Success'
+   }
+}
 }
