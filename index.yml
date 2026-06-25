@@ -1,0 +1,20 @@
+---
+- hosts: web
+  become: yes
+
+  tasks:
+
+    - name: Copy Website
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+
+    - name: Copy CSS
+      copy:
+        src: style.css
+        dest: /var/www/html/style.css
+
+    - name: Restart Apache
+      service:
+        name: httpd
+        state: restarted
